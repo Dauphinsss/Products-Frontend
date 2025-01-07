@@ -9,10 +9,9 @@ interface ProductPageProps {
   params: { id: string };
 }
 
-export default async function ProducDetail({ params }: ProductPageProps) {
-  console.log(params.id);
+export default async function ProductDetail({ params }: ProductPageProps) {
   const product: Product = await getProduct(params.id);
-  console.log(product);
+
   return (
     <div className="flex justify-center items-center h-screen">
       <Card>
@@ -26,9 +25,9 @@ export default async function ProducDetail({ params }: ProductPageProps) {
         </CardHeader>
         <CardContent>
           <h1>{product.name}</h1>
-          <p>{product.description} </p>
+          <p>{product.description}</p>
           <p>${product.price}</p>
-          <img src={product.image} className=" object-contain w-96 m-5" />
+          <img src={product.image} className="object-contain w-96 m-5" />
         </CardContent>
       </Card>
     </div>
