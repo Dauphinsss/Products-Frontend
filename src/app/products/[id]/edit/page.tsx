@@ -1,4 +1,5 @@
-import * as React from "react";
+"use client";
+import { useEffect, useState } from "react";
 
 import {
   Card,
@@ -9,16 +10,30 @@ import {
 } from "@/components/ui/card";
 import ProductForm from "../../new/product-form";
 import { getProduct } from "../../new/products.api";
+import { useParams } from "next/navigation";
 
-interface Props {
-  params: {
-    id: string;
-  };
+interface Params {
+  id?: string;
 }
 
-export default async function ProductsNewPage({ params }: Props) {
-  console.log(params.id);
-  const product = await getProduct(params.id)
+export default function ProductsNewPage() {
+  const params = useParams() as Params;
+  const { id } = params;
+  console.log(id);
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    if (id) {
+      const fetchProduct = async () => {
+        const productData = await getProduct(id);
+        console.log(productData)
+        setProduct(productData);
+      };
+      fetchProduct();
+    }
+  }, [id]);
+
+  if (!product) return <div>Loading...</div>; //
   return (
     <div className="h-screen flex justify-center items-center">
       <Card className="h-auto">
@@ -29,7 +44,7 @@ export default async function ProductsNewPage({ params }: Props) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ProductForm product={product}/>
+          <ProductForm product={product} />
         </CardContent>
       </Card>
     </div>

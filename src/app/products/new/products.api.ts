@@ -1,15 +1,15 @@
 import { ProductCreate } from "@/app/dto/dtos";
-import dotenv from "dotenv";
-dotenv.config();
 
-export const BACKEND_URL = process.env.BACKEND_URL;
+export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export async function getProducts() {
   const data = await fetch(`${BACKEND_URL}/api/products`);
   return await data.json();
 }
 export async function getProduct(id: string) {
-  const data = await fetch(`${BACKEND_URL}/api/products/${id}`);
+  const data = await fetch(`${BACKEND_URL}/api/products/${id}`, {
+    cache: "no-store",
+  });
   return await data.json();
 }
 
@@ -35,12 +35,12 @@ export async function deleteProduct(id: number) {
 }
 
 export async function updateProductDto(id: string, newProduct: ProductCreate) {
-  const res = await fetch(`${BACKEND_URL}/api/products/${id}`,{
+  const res = await fetch(`${BACKEND_URL}/api/products/${id}`, {
     method: "PATCH",
     headers: {
-      'Content-Type' : 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(newProduct)
-  })
-  return await res.json()
+    body: JSON.stringify(newProduct),
+  });
+  return await res.json();
 }

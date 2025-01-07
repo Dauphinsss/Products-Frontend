@@ -10,7 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Product } from "@/app/dto/dtos";
 
 interface Props {
-  product: Product;
+  product?: Product;
 }
 interface CreatedProduct {
   name: string;
@@ -19,8 +19,13 @@ interface CreatedProduct {
   image: string;
 }
 
+interface Params {
+  id?: string;
+}
+
 export default function ProductForm({ product }: Props) {
-  const params = useParams<{ id: string }>();
+  const params = useParams() as Params;
+  const { id } = params || {};
 
   console.log(params);
   const { register, handleSubmit } = useForm<CreatedProduct>({
@@ -35,9 +40,9 @@ export default function ProductForm({ product }: Props) {
 
   const onSubmit = handleSubmit(async (data) => {
     const productData = { ...data, price: parseFloat(data.price) };
-    if (params?.id) {
+    if (id) {
       try {
-        await updateProductDto(params.id, productData);
+        await updateProductDto(id, productData);
       } catch (error) {
         console.error("Error creating product:", error);
       }
@@ -89,7 +94,7 @@ export default function ProductForm({ product }: Props) {
         </div>
       </div>
       <CardFooter className="flex justify-end mt-4">
-        <Button type="submit">{params ? "Editar" : "Crear"}</Button>
+        <Button type="submit">{params.id ? "Editar" : "Crear"}</Button>
       </CardFooter>
     </form>
   );
