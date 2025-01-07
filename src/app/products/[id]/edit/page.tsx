@@ -17,22 +17,32 @@ interface Props {
 }
 
 export default async function ProductsNewPage({ params }: Props) {
-  const id = params.id as string; 
-  const product = await getProduct(id);
+  const id = params.id; 
 
-  return (
-    <div className="h-screen flex justify-center items-center">
-      <Card className="h-auto">
-        <CardHeader>
-          <CardTitle>Editar Producto</CardTitle>
-          <CardDescription>
-            Formulario para editar un producto existente.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ProductForm product={product} />
-        </CardContent>
-      </Card>
-    </div>
-  );
+  try {
+    const product = await getProduct(id);
+
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <Card className="h-auto">
+          <CardHeader>
+            <CardTitle>Editar Producto</CardTitle>
+            <CardDescription>
+              Formulario para editar un producto existente.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ProductForm product={product} />
+          </CardContent>
+        </Card>
+      </div>
+    );
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <p>Error cargando el producto. Por favor, inténtalo más tarde.</p>
+      </div>
+    );
+  }
 }
