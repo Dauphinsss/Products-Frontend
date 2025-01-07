@@ -10,7 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Product } from "@/app/dto/dtos";
 
 interface Props {
-  product: Product;
+  product?: Product;
 }
 interface CreatedProduct {
   name: string;
