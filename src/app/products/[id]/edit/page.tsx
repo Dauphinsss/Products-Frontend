@@ -16,20 +16,25 @@ interface Props {
   };
 }
 
+// Define el componente como una función asíncrona
 export default async function ProductsNewPage({ params }: Props) {
-  console.log(params.id);
-  const product = await getProduct(params.id)
+  console.log(params.id); // Verifica que el ID esté correcto
+
+  // Obtén el producto
+  const product = await getProduct(params.id);
+
   return (
     <div className="h-screen flex justify-center items-center">
       <Card className="h-auto">
         <CardHeader>
           <CardTitle>Editar Producto</CardTitle>
           <CardDescription>
-            Formulario para crear un nuevo Producto.
+            Formulario para editar un producto existente.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ProductForm product={product}/>
+          {/* Pasa el producto al formulario */}
+          <ProductForm product={product} />
         </CardContent>
       </Card>
     </div>
